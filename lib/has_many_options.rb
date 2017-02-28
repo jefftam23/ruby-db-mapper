@@ -10,6 +10,6 @@ class HasManyOptions < AssocOptions
 
     options = defaults.merge(options)
 
-    options.each { |attr_name, attr_val| send("#{attr_name}=", attr_val) }
+    options.each { |attr_name, attr_val| self.send("#{attr_name}=", attr_val) }
   end
 end

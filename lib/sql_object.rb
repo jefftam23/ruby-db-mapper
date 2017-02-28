@@ -1,5 +1,3 @@
-require 'byebug'
-
 require_relative 'db_connection'
 require_relative 'associatable'
 require_relative 'searchable'
@@ -10,19 +8,17 @@ class SQLObject
   extend Searchable
 
   def self.columns
-    if @columns.nil?
-      all_rows = DBConnection.execute2(<<-SQL)
-        SELECT
-          *
-        FROM
-          #{table_name}
-      SQL
+    return @columns if @columns
 
-      column_headers = all_rows.first
-      @columns = column_headers.map(&:to_sym)
-    else
-      @columns
-    end
+    all_rows = DBConnection.execute2(<<-SQL)
+      SELECT
+        *
+      FROM
+        #{table_name}
+    SQL
+
+    column_headers = all_rows.first
+    @columns = column_headers.map(&:to_sym)
   end
 
   def self.finalize!
@@ -35,8 +31,6 @@ class SQLObject
         attributes[col_name] = val
       end
     end
-
-    nil
   end
 
   def self.table_name=(table_name)
@@ -63,7 +57,7 @@ class SQLObject
   end
 
   def self.find(id)
-    target = DBConnection.execute(<<-SQL, id)
+    targets = DBConnection.execute(<<-SQL, id)
       SELECT
         *
       FROM
@@ -72,22 +66,19 @@ class SQLObject
         #{table_name}.id = ?
     SQL
 
-    return nil if target.empty?
-
-    parse_all(target).first
+    return nil if targets.empty?
+    parse_all(targets).first
   end
 
   def initialize(params = {})
-    attr_names = params.keys.map(&:to_sym)
+    params.each do |attr_name, attr_val|
+      attr_name = attr_name.to_sym
 
-    attr_names.each do |attr_name|
-      unless self.class.columns.include?(attr_name)
+      if self.class.columns.include?(attr_name)
+        self.send("#{attr_name}=", attr_val)
+      else
         raise "unknown attribute '#{attr_name}'"
       end
-    end
-
-    params.each do |attr_name, attr_val|
-      send("#{attr_name}=", attr_val)
     end
   end
 
@@ -96,7 +87,7 @@ class SQLObject
   end
 
   def attribute_values
-    self.class.columns.map { |attr_name| send(attr_name) }
+    self.class.columns.map { |attr_name| self.send(attr_name) }
   end
 
   def insert
@@ -111,12 +102,11 @@ class SQLObject
     SQL
 
     self.id = DBConnection.last_insert_row_id
-
-    nil
   end
 
   def update
-    set_str = self.class.columns.map { |attr_name| "#{attr_name} = ?" }.join(", ")
+    set_str = self.class.columns
+      .map { |attr_name| "#{attr_name} = ?" }.join(", ")
 
     DBConnection.execute(<<-SQL, *attribute_values, id)
       UPDATE
@@ -126,8 +116,6 @@ class SQLObject
       WHERE
         id = ?
     SQL
-
-    nil
   end
 
   def save

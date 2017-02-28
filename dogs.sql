@@ -1,4 +1,4 @@
-CREATE TABLE cats (
+CREATE TABLE dogs (
   id INTEGER PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   owner_id INTEGER,
@@ -12,7 +12,7 @@ CREATE TABLE humans (
   lname VARCHAR(255) NOT NULL,
   house_id INTEGER,
 
-  FOREIGN KEY(house_id) REFERENCES human(id)
+  FOREIGN KEY(house_id) REFERENCES humans(id)
 );
 
 CREATE TABLE houses (
@@ -23,21 +23,18 @@ CREATE TABLE houses (
 INSERT INTO
   houses (id, address)
 VALUES
-  (1, "26th and Guerrero"), (2, "Dolores and Market");
+  (1, "625 East 14th Street"), (2, "Somewhere in San Jose");
 
 INSERT INTO
   humans (id, fname, lname, house_id)
 VALUES
-  (1, "Devon", "Watts", 1),
-  (2, "Matt", "Rubens", 1),
-  (3, "Ned", "Ruggeri", 2),
-  (4, "Catless", "Human", NULL);
+  (1, "Jeffrey", "T.", 1),
+  (2, "Howie", "C.", 1),
+  (3, "Justin", "P.", 1),
+  (4, "Ryen", "L.", 2);
 
 INSERT INTO
-  cats (id, name, owner_id)
+  dogs (id, name, owner_id)
 VALUES
-  (1, "Breakfast", 1),
-  (2, "Earl", 2),
-  (3, "Haskell", 3),
-  (4, "Markov", 3),
-  (5, "Stray Cat", NULL);
+  (1, "Rocky", 1),
+  (2, "Gatsby", 4);

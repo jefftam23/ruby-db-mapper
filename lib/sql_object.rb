@@ -1,3 +1,5 @@
+require 'byebug'
+
 require_relative 'db_connection'
 require_relative 'associatable'
 require_relative 'searchable'
@@ -33,6 +35,8 @@ class SQLObject
         attributes[col_name] = val
       end
     end
+
+    nil
   end
 
   def self.table_name=(table_name)
@@ -85,7 +89,6 @@ class SQLObject
     params.each do |attr_name, attr_val|
       send("#{attr_name}=", attr_val)
     end
-
   end
 
   def attributes

@@ -1,8 +1,33 @@
-require_relative '03_associatable'
+require_relative 'searchable'
 
-# Phase IV
 module Associatable
-  # Remember to go back to 04_associatable to write ::assoc_options
+  def assoc_options
+    @assoc_options ||= {}
+  end
+
+  def belongs_to(name, options = {})
+    options = BelongsToOptions.new(name, options)
+
+    assoc_options[name] = options
+
+    define_method(name) do
+      # inside an instance of SQLObject
+      foreign_key_col_name = options.foreign_key
+      foreign_key_val = send(foreign_key_col_name)
+
+      options.model_class.where(id: foreign_key_val).first
+    end
+  end
+
+  def has_many(name, options = {})
+    options = HasManyOptions.new(name, self.to_s, options)
+
+    define_method(name) do
+      foreign_key_col_name = options.foreign_key
+
+      options.model_class.where(foreign_key_col_name => self.id)
+    end
+  end
 
   def has_one_through(name, through_name, source_name)
     through_options = assoc_options[through_name]
@@ -31,9 +56,6 @@ module Associatable
       source_obj_params = source_arr.first
 
       source_options.model_class.new(source_obj_params)
-
-      # A method that requires 2 queries as opposed to 1:
-      # send(through_name).send(source_name)
     end
   end
 end

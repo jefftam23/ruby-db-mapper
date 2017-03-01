@@ -1,27 +1,26 @@
-require_relative 'lib/sql_object'
+require_relative 'ruby_db_mapper'
 
 class Dog < SQLObject
-  finalize!
-
   belongs_to :owner,
     class_name: 'Human'
-
   has_one_through :home, :owner, :house
+
+  finalize!
 end
 
 class Human  < SQLObject
   self.table_name = 'humans'
-  finalize!
 
   belongs_to :house
-
   has_many :dogs,
     foreign_key: :owner_id
+
+  finalize!
 end
 
 class House  < SQLObject
-  finalize!
-
   has_many :residents,
     class_name: 'Human'
+
+  finalize!
 end

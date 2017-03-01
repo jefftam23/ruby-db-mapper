@@ -1,5 +1,3 @@
-require 'byebug'
-
 require_relative 'searchable'
 require_relative 'belongs_to_options'
 require_relative 'has_many_options'
@@ -44,8 +42,8 @@ module Associatable
   private
 
   def source_query(through_options, source_options, through_obj_id)
-    through_table = through_options.table_name
-    source_table = source_options.table_name
+    through_table = through_options.model_class.table_name
+    source_table = source_options.model_class.table_name
 
     DBConnection.execute(<<-SQL, through_obj_id)
       SELECT

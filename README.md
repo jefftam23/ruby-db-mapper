@@ -22,11 +22,19 @@ If you need to override the default, do so in the class definition with the `SQL
 
 #### `::all`
 
+Returns an array of all Ruby model objects corresponding to a particular database table
+
 #### `::find(id)`
+
+Returns a Ruby model object with the corresponding `id` if it exists and `nil` otherwise
 
 #### `#save`
 
+Persists a new or updated record to the database
+
 #### `#where(params)`
+
+Returns an array of Ruby model objects that satisfy `params`
 
 ### Associations
 

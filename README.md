@@ -32,7 +32,7 @@ Returns a Ruby model object with the corresponding `id` if it exists and `nil` o
 
 #### `#initialize(params = {})`
 
-Returns a new Ruby model object with the given params. Each entry in the params should be a key-value pair where the key corresponds to a database column name. Non-column-name keys will raise an error. **NOTE:** In order for a newly created model object to persist in the database, you must call `#save` on it.
+Returns a new Ruby model object with the given params. Each entry in the params should be a key-value pair where the key corresponds to a database column name. Non-column-name keys will raise an error. **NOTE:** In order for a newly created model object to persist in the database, you must call [`#save`](#save) on it.
 
 #### `#save`
 

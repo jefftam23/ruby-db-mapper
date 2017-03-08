@@ -42,7 +42,7 @@ Returns an array of Ruby model objects that satisfy `params`
 
 Represents a one-to-one relationship and is used when this particular class contains a foreign key. This method defines an instance method whose name corresponds the value of the `name` parameter. The created instance method returns the associated model.
 
-##### Options
+#### Options
 
 ###### `:class_name`
 
@@ -60,7 +60,7 @@ This option should be a string or symbol that corresponds to the database column
 
 Represents a one-to-many relationship and is used when another class contains a foreign key that references this class's primary key. This method defines an instance method whose name corresponds to the value of the `name` parameter. The created instance method returns an array of associated models.
 
-##### Options
+#### Options
 
 ###### `:class_name`
 

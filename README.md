@@ -6,7 +6,7 @@ objects of different types (another words, records from different database table
 
 ## Demo Instructions
 
-
+The library comes with a `demo.rb` file that sets up sample `Dog`, `Human`, and `House` models and associations. The database has been seeded with the `demo.sql` file. In order to test the demo out, open up `irb` or `pry` and `load` the `demo.rb` file. Reference the [API](#sqlobject-api) to try out the available methods.
 
 ## Setup
 

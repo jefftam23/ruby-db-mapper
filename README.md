@@ -6,6 +6,8 @@ objects of different types (another words, records from different database table
 
 ## Demo Instructions
 
+
+
 ## Setup
 
 1. Install the library and move it to the desired location.
@@ -27,6 +29,10 @@ Returns an array of all Ruby model objects corresponding to a particular databas
 #### `::find(id)`
 
 Returns a Ruby model object with the corresponding `id` if it exists and `nil` otherwise
+
+#### `#initialize(params = {})`
+
+Returns a new Ruby model object with the given params. Each entry in the params should be a key-value pair where the key corresponds to a database column name. Non-column-name keys will raise an error. **NOTE:** In order for a newly created model object to persist in the database, you must call `#save` on it.
 
 #### `#save`
 
